@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#read -p "Install useful apps? (y/n) " yn
-
 pacman_apps="obsidian
 barrier
 tmux
@@ -16,11 +14,19 @@ remmina-git
 visual-studio-code-bin
 nordvpn
 "
+
 #echo "pacman apps are: $pacman_apps"
 #echo "yay apps are: $yay_apps"
 
-# iterates through pacman_apps
-for app in $pacman_apps ; do
-echo $app
-done
+read -p "Install useful pacman apps as sudo? (y/n) " yn
 
+case $yn in
+	y )
+    # iterates through pacman_apps
+    for app in $pacman_apps ; do
+        echo "Testing $app"
+        sudo pacman -S $app
+    done;;
+	n ) echo "Not installing anything";;
+	* ) echo continue;;
+esac
