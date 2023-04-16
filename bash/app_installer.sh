@@ -24,8 +24,14 @@ case $yn in
 	y )
     # iterates through pacman_apps
     for app in $pacman_apps ; do
-        echo "Testing $app"
-        sudo pacman -S $app
+        # Checking for $app
+        if pacman -Qi $app > /dev/null ; then
+            # Installed
+            echo "$app is already installed"
+        else
+            # Not installed
+            sudo pacman -S $app
+        fi
     done;;
 	n ) echo "Not installing anything";;
 	* ) echo continue;;
