@@ -12,7 +12,10 @@ ffmpegthumbs
 xclip
 smb4k 
 solaar
-yakuake"
+yakuake
+figlet
+tailscale
+git-filter-repo"
 
 # Apps from AUR to install w/ yay
 yay_apps="
@@ -38,10 +41,10 @@ case $yn in
             read -p "Install $app? (y/n) " yn
             case $yn in
             y )
-            # Install
-            sudo pacman -S $app;;
+            # Install and accept default options
+            sudo pacman -S --noconfirm $app;;
             n )
-            # No install
+            # Skip install
             echo "Skipping $app installation";;
             esac
         fi
@@ -64,8 +67,8 @@ case $yn in
             read -p "Install $app? (y/n) " yn
             case $yn in
             y )
-            # Install
-            yay -S $app;;
+            # Install and accept default options
+            yay -S --noconfirm $app;;
             n )
             # No install
             echo "Skipping $app installation";;
