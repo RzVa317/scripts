@@ -5,7 +5,7 @@
 echo "Checking for ssh-agent process"
 # If pgrep doesn't return an ssh-agent process for $USER
 # pgrep outputs the pids of processes found, so sending to the void
-if ! pgrep ssh-agent; then
+if ! pgrep -x ssh-agent; then
 	# Start new instance and save env variables
 	echo "Starting new instance"
 	ssh-agent > "$XDG_RUNTIME_DIR/ssh-agent.env"
