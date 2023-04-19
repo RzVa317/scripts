@@ -32,16 +32,8 @@ for app in $pacman_apps; do
         # Installed
         echo "$app is already installed"
     else
-        # app is not installed, prompt for install
-        read -p "Install $app? (y/n) " yn
-        case $yn in
-        y )
         # Install and accept default options
-        sudo pacman -S --noconfirm $app;;
-        n )
-        # Skip install
-        echo "Skipping $app installation";;
-        esac
+        sudo pacman -S --noconfirm $app
     fi
 done
 
@@ -52,15 +44,7 @@ for app in $yay_apps; do
         # Installed
         echo "$app is installed already"
     else
-        # app is not installed, prompt for install
-        read -p "Install $app? (y/n) " yn
-        case $yn in
-        y )
         # Install and accept default options
-        yay -S --noconfirm $app;;
-        n )
-        # No install
-        echo "Skipping $app installation";;
-        esac
+        yay -S --noconfirm $app
     fi
 done
