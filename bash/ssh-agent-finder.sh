@@ -1,13 +1,12 @@
 #!/bin/bash
-# This script will search for $SSH_AGENT_PID
-# If not found will start new instance of ssh-agent and save to env
-echo "Searching for ${SSH_AGENT_PID}"
-if [[ ! -n "${SSH_AGENT_PID}" ]]; then
-	echo "SSH_AGENT_PID is not set, starting new instance of ssh-agent"
-	eval "$(ssh-agent)"
-	echo "sourced: ${SSH_AGENT_PID}"
-	export SSH_AGENT_PID
-	export SSH_AUTH_SOCK
+# This script will search for a running ssh-agent instance and connect to it
+# If not, will start a new instance
+
+# If pgrep doesn't return an ssh-agent process for $USER
+if ! pgrep -x ssh-agent > /dev/null; then
+	# Start new instance and save env variables
+	ssh-agent > "$XDG_RUNTIME_DIR/ssh-agent.env"
 else
-	echo "SSH_AGENT_PID is set to ${SSH_AGENT_PID}"
+	# echo "ssh-agent already running"
+	source $XDG_RUNTIME_DIR/ssh-agent.env
 fi
