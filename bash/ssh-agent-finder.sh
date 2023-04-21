@@ -1,12 +1,19 @@
 #!/bin/bash
 # This script will search for a running ssh-agent instance and connect to it
 # If not, will start a new instance
+# Will only work when being called from .bashrc
 
-# If pgrep doesn't return an ssh-agent process for $USER
-if ! pgrep -x ssh-agent > /dev/null; then
-	# Start new instance and save env variables
-	ssh-agent > "$XDG_RUNTIME_DIR/ssh-agent.env"
-else
-	# echo "ssh-agent already running"
-	source $XDG_RUNTIME_DIR/ssh-agent.env
+# Set output of pgrep to $pid
+pid=$(pgrep -x ssh-agent)
+# If pgrep doesn't return an ssh-agent process
+if [[ ! -n ${pid} ]] ; then
+	# Start a new instance and save to ssh-agent.env
+    ssh-agent > "${XDG_RUNTIME_DIR}/ssh-agent.env"
+	# Add output to shell environment
+    source "${XDG_RUNTIME_DIR}/ssh-agent.env" > /dev/null
+fi
+# If pgrep returned a process for ssh-agent
+if [[ -n ${pid} ]] ; then
+	# Add to environment
+    source "${XDG_RUNTIME_DIR}/ssh-agent.env" > /dev/null
 fi
