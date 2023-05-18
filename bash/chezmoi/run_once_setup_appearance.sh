@@ -80,3 +80,31 @@ else
 	sudo cp $(chezmoi source-path)/Files/"$nord_cursors" .
 	sudo tar -xvf "$nord_cursors"
 fi
+
+# Install Kvantum theme
+kvantum_dir=/usr/share/Kvantum/
+kvantum_theme=Nordic.KDE.Kvantum.Theme.tar.xz
+# Check if dir doesn't exist, create if so
+if [ ! -d "$kvantum_dir" ] ; then
+	echo "Creating directory for Kvantum themes"
+	sudo mkdir -p "$kvantum_dir"
+fi
+cd "$kvantum_dir"
+if [ -f "$kvantum_theme" ] ; then
+	echo "The Kvantum theme has already been installed"
+else
+	echo "Installing Nordic Kvantum theme"
+	sudo cp $(chezmoi source-path)/Files/"$kvantum_theme" .
+	sudo tar -xvf "$kvantum_theme"
+fi
+
+# Install color-scheme
+color_scheme_dir=/usr/share/color-schemes/
+color_scheme=Nordic.colors
+cd "$color_scheme_dir"
+if [ -f "$color_scheme" ] ; then
+	echo "The color-scheme has already been installed"
+else
+	echo "Installing Nordic color-scheme"
+	sudo cp $(chezmoi source-path)/Files/"$color_scheme" .
+fi
