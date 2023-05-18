@@ -31,3 +31,15 @@ else
 	sudo cp $(chezmoi source-path)/Files/"$nord_sddm" .
 	sudo tar -xvf "$nord_sddm"
 fi
+
+# Install Plasma theme
+echo "Installing Nordic Plasma theme"
+plasma_dir=/usr/share/plasma/desktoptheme/
+nord_plasma=Nordic.KDE.Plasma.Theme.tar.xz
+cd "$plasma_dir"
+if [ -f "$nord_plasma" ] ; then
+	echo "The Plasma theme has already been installed"
+else
+	sudo cp $(chezmoi source-path)/Files/"$nord_plasma" .
+	sudo tar -xvf "$nord_plasma"
+fi
