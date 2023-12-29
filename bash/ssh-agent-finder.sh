@@ -6,7 +6,7 @@
 # Set output of pgrep to $pid
 pid=$(pgrep -x ssh-agent)
 # If pgrep doesn't return an ssh-agent process
-if [[ ! -n ${pid} ]] ; then
+if [[ -z ${pid} ]] ; then
 	# Start a new instance and save to ssh-agent.env
     ssh-agent > "${XDG_RUNTIME_DIR}/ssh-agent.env"
 	# Add output to shell environment
