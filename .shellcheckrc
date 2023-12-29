@@ -1,0 +1,3 @@
+# .shellcheckrc in my scripts repo
+
+disable=SC1091
