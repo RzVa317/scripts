@@ -11,13 +11,50 @@ reset=$(tput sgr0)
 
 # If sshd config file exists
 sshd_config_exists(){
-	if [[ -e /etc/ssh/sshd_config ]]
-		then
-			echo "${green}=== sshd_config exists ===${reset}"
-			return 0
-		else
-			echo "${red}=== sshd_config doesn't exists ===${reset}"
-			return 1
+	sshd_file=/etc/ssh/sshd_config
+	if [[ -e $sshd_file ]]
+		then return 0
+		else return 1
 	fi
 }
-sshd_config_exists
+grep_for_current_pw_auth(){
+	# May need to add check for commented out options
+	current_pw_auth=$(grep -E "^PasswordAuthentication *" /etc/ssh/sshd_config)
+	# if pw auth is set to no, return 0
+	# else return 1, because it should be set to no
+	if [[ "$current_pw_auth" == *"no" ]]
+		then return 0
+		else return 1
+	fi
+}
+grep_for_current_root_login(){
+	current_root_login=$(grep -E "^\s*#?\s*PermitRootLogin *" /etc/ssh/sshd_config)
+	if [[ "$current_root_login" == *"yes" ]]
+		then return 2
+	elif [[ "$current_root_login" == *"prohibit-password" ]]
+		then return 1
+	elif [[ "$current_root_login" == *"no" ]]
+		then return 0
+	else return 3
+	fi
+}
+echo "${cyan}=== Current SSH Server Password Auth ===${reset}"
+if sshd_config_exists
+	then
+		if grep_for_current_pw_auth
+			then echo "${green}$current_pw_auth${reset}"
+		fi
+		grep_for_current_root_login
+		grep_status=$?
+		#echo "grepo $grep_status"
+		# Check for exit code to color output
+		if [ $grep_status -eq 0 ]
+			then echo "${green}$current_root_login${reset}"
+		elif [ $grep_status -eq 1 ]
+			then echo "${yellow}$current_root_login${reset}"
+		elif [ $grep_status -eq 2 ]
+			then echo "${red}$current_root_login${reset}"
+		elif [ $grep_status -eq 3 ]
+			then echo "${red}${bold}$current_root_login${reset}"
+		fi
+fi
