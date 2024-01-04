@@ -38,7 +38,7 @@ grep_for_current_root_login(){
 	else return 3
 	fi
 }
-echo "${cyan}=== Current SSH Server Password Auth ===${reset}"
+echo "${cyan}=== Current SSH Server Auth Settings ===${reset}"
 if sshd_config_exists
 	then
 		if grep_for_current_pw_auth
