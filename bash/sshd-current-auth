@@ -1,0 +1,23 @@
+#!/bin/bash
+# Script to pull current sshd config and 
+
+# Global variables
+red=$(tput setaf 1)
+green=$(tput setaf 2)
+yellow=$(tput setaf 3)
+cyan=$(tput setaf 6)
+bold=$(tput bold)
+reset=$(tput sgr0)
+
+# If sshd config file exists
+sshd_config_exists(){
+	if [[ -e /etc/ssh/sshd_config ]]
+		then
+			echo "${green}=== sshd_config exists ===${reset}"
+			return 0
+		else
+			echo "${red}=== sshd_config doesn't exists ===${reset}"
+			return 1
+	fi
+}
+sshd_config_exists
