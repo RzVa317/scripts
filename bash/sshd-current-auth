@@ -38,6 +38,21 @@ grep_for_current_root_login(){
 	else return 3
 	fi
 }
+output_current_allowed_keys() {
+	if authed_keys_exist
+		then
+			cat ~/.ssh/authorized_keys
+			return 0
+		else return 1
+	fi
+}
+authed_keys_exist() {
+	authed_keys=~/.ssh/authorized_keys
+	if [[ -e $authed_keys ]]
+		then return 0
+		else return 1
+	fi
+}
 echo "${cyan}=== Current SSH Server Auth Settings ===${reset}"
 if sshd_config_exists
 	then
@@ -57,4 +72,5 @@ if sshd_config_exists
 		elif [ $grep_status -eq 3 ]
 			then echo "${red}${bold}$current_root_login${reset}"
 		fi
+		output_current_allowed_keys
 fi
